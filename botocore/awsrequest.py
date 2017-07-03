@@ -122,7 +122,9 @@ class AWSHTTPConnection(HTTPConnection):
     def _send_request(self, method, url, body, headers, *args, **kwargs):
         self._response_received = False
         if headers.get('Expect', b'') == b'100-continue':
-            self._expect_header_set = True
+             # EVK: disabling _expect_header_set behavior since causes unfortunate & not-strictly-necessary select.select() call below
+             # self._expect_header_set = True
+             self._expect_header_set = False
         else:
             self._expect_header_set = False
             self.response_class = self._original_response_cls
